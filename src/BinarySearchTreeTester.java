@@ -180,27 +180,76 @@ public class BinarySearchTreeTester {
 
         // empty tree
         BinarySearchTree<Integer, Integer> tree1 = newTree();
-        tree1.delete((Integer)1); // does nothing and that is correct
+        tree1.delete(1); // does nothing and that is correct
 
         // root only (match and no match)
         insert(tree1, 5);
-        tree1.delete((Integer)1);
+        tree1.delete(1);
         Assert.assertEquals(badDeletion, "5", preOrderString(tree1));
-        tree1.delete((Integer)5);
+        tree1.delete(5);
         Assert.assertEquals(wrongDeletion, "", preOrderString(tree1));
 
         // large tree but no match
-        
+        tree1 = newTree();
+        insert(tree1, 5, 2, 1, 3, 7, 6, 8);
+        tree1.delete(4);
+        Assert.assertEquals(badDeletion, "5 (2 (1, 3), 7 (6, 8))", preOrderString(tree1));
 
         // smallest value (yes children, no children)
+        tree1 = newTree();
+        insert(tree1, 5, 3, 4, 1, 2, 7, 6, 8);
+        Assert.assertEquals("Tree was not constructed properly", "5 (3 (1 (, 2), 4), 7 (6, 8))", preOrderString(tree1));
+        tree1.delete(1);
+        Assert.assertEquals(wrongDeletion, "5 (3 (2, 4), 7 (6, 8))", preOrderString(tree1));
+        tree1.delete(2);
+        Assert.assertEquals(wrongDeletion, "5 (3 (, 4), 7 (6, 8))", preOrderString(tree1));
 
         // largest value (yes children, no children)
+        tree1 = newTree();
+        insert(tree1, 5, 3, 1, 4, 7, 6, 9, 8);
+        Assert.assertEquals("Tree was not constructed properly", "5 (3 (1, 4), 7 (6, 9 (8, )))", preOrderString(tree1));
+        tree1.delete(9);
+        Assert.assertEquals(wrongDeletion, "5 (3 (1, 4), 7 (6, 8))", preOrderString(tree1));
+        tree1.delete(8);
+        Assert.assertEquals(wrongDeletion, "5 (3 (1, 4), 7 (6, ))", preOrderString(tree1));
 
         // middle value (left child, right child, both children, both children have children too)
+        tree1 = newTree();
+        insert(tree1, 8, 5, 12, 2, 6, 10, 15, 1, 4, 7, 9, 11, 13, 16, 3, 14);
+        Assert.assertEquals("Tree was not constructed properly",
+                            "8 (5 (2 (1, 4 (3, )), 6 (, 7)), 12 (10 (9, 11), 15 (13 (, 14), 16)))",
+                            preOrderString(tree1));
+        tree1.delete(4);
+        Assert.assertEquals(wrongDeletion,
+                            "8 (5 (2 (1, 3), 6 (, 7)), 12 (10 (9, 11), 15 (13 (, 14), 16)))",
+                            preOrderString(tree1));
+        tree1.delete(6);
+        Assert.assertEquals(wrongDeletion,
+                            "8 (5 (2 (1, 3), 7), 12 (10 (9, 11), 15 (13 (, 14), 16)))",
+                            preOrderString(tree1));
+        tree1.delete(2);
+        Assert.assertEquals(wrongDeletion,
+                            "8 (5 (3 (1, ), 7), 12 (10 (9, 11), 15 (13 (, 14), 16)))",
+                            preOrderString(tree1));
+        tree1.delete(12);
+        Assert.assertEquals(wrongDeletion,
+                            "8 (5 (3 (1, ), 7), 13 (10 (9, 11), 15 (14, 16)))",
+                            preOrderString(tree1));
 
         // remove root in large tree
+        tree1.delete(8);
+        Assert.assertEquals(wrongDeletion,
+                            "9 (5 (3 (1, ), 7), 13 (10 (, 11), 15 (14, 16)))",
+                            preOrderString(tree1));
 
         // remove a duplicate value
+        tree1 = newTree();
+        insert(tree1, 5, 1, 1, 2, 4);
+        Assert.assertEquals("Tree was not constructed properly", "5 (1 (, 1 (, 2)), 4)", preOrderString(tree1));
+        tree1.delete(1);
+        Assert.assertEquals("Tree was not constructed properly", "5 (1 (, 2), 4)", preOrderString(tree1));
+        tree1.delete(1);
+        Assert.assertEquals("Tree was not constructed properly", "5 (2, 4)", preOrderString(tree1));
     }
 
     /**
@@ -208,11 +257,19 @@ public class BinarySearchTreeTester {
      */
     @Test
     public void testInorderRec() {
+        String badList = "The method did not return the expected list";
+
         // empty tree
+        BinarySearchTree<Integer, Integer> tree1 = newTree();
+        Assert.assertEquals(badList, "[]", tree1.inorderRec().toString());
 
         // root only
+        insert(tree1, 5);
+        Assert.assertEquals(badList, "[5]", tree1.inorderRec().toString());
 
         // large tree
+        insert(tree1, 2, 1, 3, 7, 6, 8);
+        Assert.assertEquals(badList, "[1, 2, 3, 5, 6, 7, 8]", tree1.inorderRec().toString());
     }
 
     /**
@@ -220,11 +277,101 @@ public class BinarySearchTreeTester {
      */
     @Test
     public void kthSmallest() throws NoSuchElementException {
+        String exceptionExpected = "The method should have thrown an exception but it did not";
+        String wrongException = "The method threw the wrong exception: ";
+        String badException = "The method should not have thrown an exception: ";
+        String wrongValue = "The method returned the wrong value";
+        
         // empty tree
+        BinarySearchTree<Integer, Integer> tree1 = newTree();
+        try {
+            tree1.kthSmallest(1);
+            Assert.fail(exceptionExpected);
+        }
+        catch (NoSuchElementException e) {
 
-        // negative input
+        }
+        catch (Exception e) {
+            Assert.fail(wrongException + e.toString());
+        }
+
+        // negative or zero input
+        try {
+            tree1.kthSmallest(0);
+            Assert.fail(exceptionExpected);
+        }
+        catch (NoSuchElementException e) {
+
+        }
+        catch (Exception e) {
+            Assert.fail(wrongException + e.toString());
+        }
+        try {
+            tree1.kthSmallest(-1);
+            Assert.fail(exceptionExpected);
+        }
+        catch (NoSuchElementException e) {
+
+        }
+        catch (Exception e) {
+            Assert.fail(wrongException + e.toString());
+        }
 
         // root only (no exception and exception)
+        insert(tree1, 5);
+        try {
+            Assert.assertEquals(wrongValue, (Integer)5, tree1.kthSmallest(1));
+        }
+        catch (Exception e) {
+            Assert.fail(badException + e.toString());
+        }
+        try {
+            tree1.kthSmallest(2);
+            Assert.fail(exceptionExpected);
+        }
+        catch (NoSuchElementException e) {
+
+        }
+        catch (Exception e) {
+            Assert.fail(wrongException + e.toString());
+        }
+
+        // smallest
+        insert(tree1, 3, 2, 4, 7, 6, 8);
+        try {
+            Assert.assertEquals(wrongValue, (Integer)2, tree1.kthSmallest(1));
+        }
+        catch (Exception e) {
+            Assert.fail(badException + e.toString());
+        }
+
+        // middle
+        try {
+            Assert.assertEquals(wrongValue, (Integer)4, tree1.kthSmallest(3));
+        }
+        catch (Exception e) {
+            Assert.fail(badException + e.toString());
+        }
+
+        // largest
+        try {
+            Assert.assertEquals(wrongValue, (Integer)8, tree1.kthSmallest(7));
+        }
+        catch (Exception e) {
+            Assert.fail(badException + e.toString());
+        }
+
+        // large tree (exception)
+        try {
+            tree1.kthSmallest(9);
+            Assert.fail(exceptionExpected);
+        }
+        catch (NoSuchElementException e) {
+
+        }
+        catch (Exception e) {
+            Assert.fail(wrongException + e.toString());
+        }
     }
 
     public String preOrderString(BinarySearchTree<?, ?> tree) {
