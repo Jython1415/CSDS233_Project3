@@ -8,6 +8,10 @@ import org.junit.Test;
  * @author Joshua Shew
  */
 public class BinarySearchTreeTester {
+    private BinarySearchTreeTester() {
+        // does nothing
+    }
+
     /**
      * Unit tests for insert method
      */
@@ -171,7 +175,32 @@ public class BinarySearchTreeTester {
      */
     @Test
     public void testDelete() {
+        String badDeletion = "The value should not have been removed";
+        String wrongDeletion = "The value was not removed correctly";
 
+        // empty tree
+        BinarySearchTree<Integer, Integer> tree1 = newTree();
+        tree1.delete((Integer)1); // does nothing and that is correct
+
+        // root only (match and no match)
+        insert(tree1, 5);
+        tree1.delete((Integer)1);
+        Assert.assertEquals(badDeletion, "5", preOrderString(tree1));
+        tree1.delete((Integer)5);
+        Assert.assertEquals(wrongDeletion, "", preOrderString(tree1));
+
+        // large tree but no match
+        
+
+        // smallest value (yes children, no children)
+
+        // largest value (yes children, no children)
+
+        // middle value (left child, right child, both children, both children have children too)
+
+        // remove root in large tree
+
+        // remove a duplicate value
     }
 
     /**
@@ -179,15 +208,23 @@ public class BinarySearchTreeTester {
      */
     @Test
     public void testInorderRec() {
+        // empty tree
 
+        // root only
+
+        // large tree
     }
 
     /**
      * Unit tests for kthSmallest method
      */
     @Test
-    public void kthSmallest() {
+    public void kthSmallest() throws NoSuchElementException {
+        // empty tree
 
+        // negative input
+
+        // root only (no exception and exception)
     }
 
     public String preOrderString(BinarySearchTree<?, ?> tree) {
