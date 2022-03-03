@@ -1,5 +1,6 @@
 import java.lang.Comparable;
 import java.util.List;
+import java.util.LinkedList;
 import java.util.NoSuchElementException;
 
 /**
@@ -73,14 +74,53 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
     private void delete(T key, BinaryNode currentNode) {
         BinaryNode node = findNode(key, currentNode);
         if (node != null) {
-            if (node.getLeft() != null && node.getRight() != null) {
+            System.out.println(node.getValue().toString());
+            if (node.getLeft() != null && node.getRight() != null) { // two children
                 node.reassignData(findMin(node.getRight()));
                 delete(node.getKey(), node.getRight());
             }
-            else {
+            else if (node.getLeft() != null) { // replace with left child
                 BinaryNode parentNode = node.getParent();
-                node = (node.getLeft() != null) ? node.getLeft() : node.getRight();
+                node = node.getLeft();
                 node.setParent(parentNode);
+                if (parentNode == null) {
+                    setRoot(node);
+                }
+                else {
+                    if (key.compareTo(node.getParent().getKey()) < 0) {
+                        node.getParent().setLeft(node);
+                    }
+                    else {
+                        node.getParent().setRight(node);
+                    }
+                }
+            }
+            else if (node.getRight() != null) { // replace with right child
+                BinaryNode parentNode = node.getParent();
+                node = node.getRight();
+                node.setParent(parentNode);
+                if (parentNode == null) {
+                    setRoot(node);
+                }
+                else {
+                    if (key.compareTo(node.getParent().getKey()) < 0) {
+                        node.getParent().setLeft(node);
+                    }
+                    else {
+                        node.getParent().setRight(node);
+                    }
+                }
+            }
+            else {
+                if (node.getParent() == null) {
+                    setRoot(null);
+                }
+                else if (key.compareTo(node.getParent().getKey()) < 0) {
+                    node.getParent().setLeft(null);
+                }
+                else {
+                    node.getParent().setRight(null);
+                }
             }
         }
     }

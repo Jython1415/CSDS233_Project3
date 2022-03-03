@@ -2,16 +2,13 @@ import java.lang.reflect.Method;
 import java.util.NoSuchElementException;
 import org.junit.Assert;
 import org.junit.Test;
+import java.util.List;
 
 /**
  * Tester class for BinarySearchTree
  * @author Joshua Shew
  */
 public class BinarySearchTreeTester {
-    private BinarySearchTreeTester() {
-        // does nothing
-    }
-
     /**
      * Unit tests for insert method
      */
@@ -244,12 +241,12 @@ public class BinarySearchTreeTester {
 
         // remove a duplicate value
         tree1 = newTree();
-        insert(tree1, 5, 1, 1, 2, 4);
-        Assert.assertEquals("Tree was not constructed properly", "5 (1 (, 1 (, 2)), 4)", preOrderString(tree1));
+        insert(tree1, 5, 1, 1, 2, 6);
+        Assert.assertEquals("Tree was not constructed properly", "5 (1 (, 1 (, 2)), 6)", preOrderString(tree1));
         tree1.delete(1);
-        Assert.assertEquals("Tree was not constructed properly", "5 (1 (, 2), 4)", preOrderString(tree1));
+        Assert.assertEquals("Tree was not constructed properly", "5 (1 (, 2), 6)", preOrderString(tree1));
         tree1.delete(1);
-        Assert.assertEquals("Tree was not constructed properly", "5 (2, 4)", preOrderString(tree1));
+        Assert.assertEquals("Tree was not constructed properly", "5 (2, 6)", preOrderString(tree1));
     }
 
     /**
@@ -374,7 +371,7 @@ public class BinarySearchTreeTester {
         }
     }
 
-    public String preOrderString(BinarySearchTree<?, ?> tree) {
+    public static String preOrderString(BinarySearchTree<?, ?> tree) {
         Class<?> treeClass = tree.getClass();
         try {
             Method method = treeClass.getDeclaredMethod("preOrderToString");
@@ -386,14 +383,14 @@ public class BinarySearchTreeTester {
         }
     }
 
-    public BinarySearchTree<Integer, Integer> insert(BinarySearchTree<Integer, Integer> tree, int... values) {
+    public static BinarySearchTree<Integer, Integer> insert(BinarySearchTree<Integer, Integer> tree, int... values) {
         for (int i : values)
             tree.insert(i, i);
 
         return tree;
     }
 
-    public BinarySearchTree<Integer, Integer> newTree() {
+    public static BinarySearchTree<Integer, Integer> newTree() {
         return new BinarySearchTree<Integer, Integer>();
     }
 }
