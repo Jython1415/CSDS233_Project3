@@ -45,7 +45,19 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
      * @return the value that is associated with the key
      */
     public V search(T key) throws NoSuchElementException {
-        return null;
+        return searchTree(key, getRoot()).getValue();
+    }
+
+    private BinaryNode searchTree(T key, BinaryNode currentNode) throws NoSuchElementException {
+        if (currentNode == null) {
+            throw new NoSuchElementException();
+        }
+        else if (key.compareTo(currentNode.getKey()) == 0) {
+            return currentNode;
+        }
+        else {
+            return searchTree(key, (key.compareTo(currentNode.getKey()) < 0) ? currentNode.getLeft() : currentNode.getRight());
+        }
     }
 
     /**
