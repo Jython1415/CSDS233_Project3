@@ -2,7 +2,6 @@ import java.lang.reflect.Method;
 import java.util.NoSuchElementException;
 import org.junit.Assert;
 import org.junit.Test;
-import java.util.List;
 
 /**
  * Tester class for BinarySearchTree
