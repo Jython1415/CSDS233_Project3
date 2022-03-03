@@ -137,7 +137,7 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
             return currentNode;
         }
         else {
-            return findMind(currentNode.getLeft());
+            return findMin(currentNode.getLeft());
         }
     }
 
