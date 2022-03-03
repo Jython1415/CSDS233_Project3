@@ -51,6 +51,14 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         return null;
     }
 
+    private String preOrderToString() {
+
+    }
+
+    private String preOrderToStringTree(StringBuilder string, BinaryNode currentNode) {
+        
+    }
+
     private class BinaryNode {
         private T key;
         private V value;
