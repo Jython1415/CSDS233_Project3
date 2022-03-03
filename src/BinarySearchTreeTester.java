@@ -54,7 +54,7 @@ public class BinarySearchTreeTester {
         try {
             Method method = treeClass.getDeclaredMethod("preOrderToString");
             method.setAccessible(true);
-            return (String)method.invoke((Object[])null);
+            return (String)method.invoke(tree, (Object[])null);
         }
         catch (Exception e) {
             throw new NullPointerException("Could not call the method via reflection");
