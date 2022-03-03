@@ -309,4 +309,37 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
             return this;
         }
     }
+
+    public static void main(String[] args) {
+        System.out.println("** Demonstration **");
+
+        System.out.println("Create a new empty BinarySearchTree\nBinarySearchTree<Integer, Integer> tree1 = new BinarySearchTree<Integer, Integer>();");
+
+        BinarySearchTree<Integer, Integer> tree1 = BinarySearchTreeTester.newTree();
+
+        System.out.println("Insert: 2, 1, 4, 5, 9, 3, 6, 7, 10, 12, 11");
+        System.out.println("Uses: tree1.insert(x, x); // so key and value are the same");
+
+        BinarySearchTreeTester.insert(tree1, 2, 1, 4, 5, 9, 3, 6, 7, 10, 12, 11);
+
+        System.out.println("Use tree1.inorderRec().toString() to display the tree");
+        System.out.println(tree1.inorderRec().toString());
+        System.out.println("Here is a preorder print to show the structure of the tree");
+        System.out.println(tree1.preOrderToString());
+
+        System.out.println("Delete 4 and 9 using: tree1.delete(x);");
+        
+        tree1.delete(4);
+        tree1.delete(9);
+
+        System.out.println(tree1.inorderRec().toString());
+        System.out.println(tree1.preOrderToString());
+
+        System.out.println("Search 12 and 4 using: tree1.search(x);");
+        System.out.println(tree1.search(12).toString());
+        System.out.println(tree1.search(4).toString());
+
+        System.out.println("Find the 3rd smallest element by using: tree1.kthSmallest(x);");
+        System.out.println(tree1.kthSmallest(3).toString());
+    }
 }
