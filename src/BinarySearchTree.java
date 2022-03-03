@@ -8,6 +8,16 @@ import java.util.List;
  */
 public class BinarySearchTree<T extends Comparable<? super T>, V> {
 
+    private BinaryNode root;
+
+    private BinaryNode getRoot() {
+        return this.root;
+    }
+
+    private void setRoot(BinaryNode root) {
+        this.root = root;
+    }
+
     /**
      * This method inserts the value into the tree based on the associated key
      * @param key the key determines how the value should be sorted within the tree
