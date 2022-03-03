@@ -56,7 +56,8 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
             return currentNode;
         }
         else {
-            return searchTree(key, (key.compareTo(currentNode.getKey()) < 0) ? currentNode.getLeft() : currentNode.getRight());
+            return searchTree(key, (key.compareTo(currentNode.getKey()) < 0) ?
+                                   currentNode.getLeft() : currentNode.getRight());
         }
     }
 
