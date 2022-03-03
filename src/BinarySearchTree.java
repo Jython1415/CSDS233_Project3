@@ -2,7 +2,7 @@ import java.lang.Comparable;
 import java.util.List;
 
 /**
- * This class represents a tree of sorted information. Each bit of stored data has a "key" associated with it that deteremines how it should be sorted.
+ * This class represents a tree of sorted information. Each bit of stored data has a "key" associated with it that determines how it should be sorted.
  * All methods are efficient: O(N)
  * @author Joshua Shew
  */
