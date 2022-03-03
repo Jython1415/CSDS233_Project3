@@ -1,5 +1,4 @@
 import java.lang.reflect.Method;
-import java.rmi.UnexpectedException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,7 +13,36 @@ public class BinarySearchTreeTester {
      */
     @Test
     public void testInsert() {
-        
+        String insertError = "The value was not inserted correctly";
+
+        // empty tree
+        BinarySearchTree<Integer, Integer> tree1 = new BinarySearchTree<Integer, Integer>();
+        insert(tree1, 1);
+        Assert.assertEquals(insertError, "1", preOrderString(tree1));
+
+        // tree with only the root (left and right side)
+        resetTree(tree1);
+        insert(tree1, 1);
+        insert(tree1, 0);
+        Assert.assertEquals(insertError, "1 (0,)", preOrderString(tree1));
+        resetTree(tree1);
+        insert(tree1, 1);
+        insert(tree1, 2);
+        Assert.assertEquals(insertError, "1 (, 2)", preOrderString(tree1));
+
+        // new value goes on far left
+        resetTree(tree1);
+        insert(tree1, 5, 2, 3, 7, 6, 8);
+        insert(tree1, 0);
+        Assert.assertEquals(insertError, "5 (2 (0, 3), 7 (6, 8)", preOrderString(tree1));
+
+        // new value goes on far right
+        insert(tree1, 9);
+        Assert.assertEquals(insertError, "5 (2 (0, 3), 7 (6, 8 (, 9))", preOrderString(tree1));
+
+        // new value goes in the middle
+        insert(tree1, 4);
+        Assert.assertEquals(insertError, "5 (2 (0, 3 (, 4)), 7 (6, 8 (, 9))", preOrderString(tree1));
     }
 
     /**
@@ -49,7 +77,7 @@ public class BinarySearchTreeTester {
 
     }
 
-    public String preOrderString(BinarySearchTree tree) {
+    public String preOrderString(BinarySearchTree<?, ?> tree) {
         Class<?> treeClass = tree.getClass();
         try {
             Method method = treeClass.getDeclaredMethod("preOrderToString");
@@ -59,5 +87,16 @@ public class BinarySearchTreeTester {
         catch (Exception e) {
             throw new NullPointerException("Could not call the method via reflection");
         }
+    }
+
+    public BinarySearchTree<Integer, Integer> insert(BinarySearchTree<Integer, Integer> tree, int... values) {
+        for (int i : values)
+            tree.insert(i, i);
+
+        return tree;
+    }
+
+    public void resetTree(BinarySearchTree<Integer, Integer> tree) {
+        tree = new BinarySearchTree<Integer, Integer>();
     }
 }
