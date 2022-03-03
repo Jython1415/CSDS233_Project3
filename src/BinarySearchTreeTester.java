@@ -1,5 +1,5 @@
 import java.lang.reflect.Method;
-
+import java.util.NoSuchElementException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class BinarySearchTreeTester {
         String insertError = "The value was not inserted correctly";
 
         // empty tree
-        BinarySearchTree<Integer, Integer> tree1 = new BinarySearchTree<Integer, Integer>();
+        BinarySearchTree<Integer, Integer> tree1 = newTree();
         insert(tree1, 1);
         Assert.assertEquals(insertError, "1", preOrderString(tree1));
 
@@ -63,7 +63,107 @@ public class BinarySearchTreeTester {
      */
     @Test
     public void testSearch() {
+        String exceptionExpected = "The method should have thrown an exception but it did not";
+        String wrongException = "The method threw the wrong exception: ";
+        String badException = "The method should not have thrown an exception: ";
+        String wrongValue = "The method returned the wrong value";
 
+        // empty tree
+        BinarySearchTree<Integer, Integer> tree1 = newTree();
+        try {
+            tree1.search(1);
+            Assert.fail(exceptionExpected);
+        }
+        catch (NoSuchElementException e) {
+
+        }
+        catch (Exception e) {
+            Assert.fail(wrongException + e.toString());
+        }
+
+        // root node (match and not a match)
+        insert(tree1, 2);
+        try {
+            Assert.assertEquals(wrongValue, (Integer)2, tree1.search(2));
+        }
+        catch (Exception e) {
+            Assert.fail(badException + e.toString());
+        }
+        try {
+            tree1.search(1);
+            Assert.fail(exceptionExpected);
+        }
+        catch (NoSuchElementException e) {
+
+        }
+        catch (Exception e) {
+            Assert.fail(wrongException + e.toString());
+        }
+
+        // search for the smallest element (match and not a match)
+        tree1 = newTree();
+        insert(tree1, 5, 2, 7, 1, 3, 6, 8);
+        try {
+            Assert.assertEquals(wrongValue, (Integer)1, tree1.search(1));
+        }
+        catch (Exception e) {
+            Assert.fail(badException + e.toString());
+        }
+        try {
+            tree1.search(0);
+            Assert.fail(exceptionExpected);
+        }
+        catch (NoSuchElementException e) {
+
+        }
+        catch (Exception e) {
+            Assert.fail(wrongException + e.toString());
+        }
+
+        // search for the largest element (match and not a match)
+        try {
+            Assert.assertEquals(wrongValue, (Integer)8, tree1.search(8));
+        }
+        catch (Exception e) {
+            Assert.fail(badException + e.toString());
+        }
+        try {
+            tree1.search(9);
+            Assert.fail(exceptionExpected);
+        }
+        catch (NoSuchElementException e) {
+
+        }
+        catch (Exception e) {
+            Assert.fail(wrongException + e.toString());
+        }
+
+        // search for a middle element (match and not a match)
+        try {
+            Assert.assertEquals(wrongValue, (Integer)6, tree1.search(6));
+        }
+        catch (Exception e) {
+            Assert.fail(badException + e.toString());
+        }
+        try {
+            tree1.search(4);
+            Assert.fail(exceptionExpected);
+        }
+        catch (NoSuchElementException e) {
+
+        }
+        catch (Exception e) {
+            Assert.fail(wrongException + e.toString());
+        }
+
+        // search for a duplicate element
+        insert(tree1, 4, 4);
+        try {
+            Assert.assertEquals(wrongValue, (Integer)4, tree1.search(4));
+        }
+        catch (Exception e) {
+            Assert.fail(badException + e.toString());
+        }
     }
 
     /**
