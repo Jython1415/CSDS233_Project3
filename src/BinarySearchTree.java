@@ -52,11 +52,25 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
     }
 
     private String preOrderToString() {
+        StringBuilder string = new StringBuilder();
 
+
+        preOrderToStringTree(string, getRoot());
+
+        return string.toString();
     }
 
-    private String preOrderToStringTree(StringBuilder string, BinaryNode currentNode) {
-        
+    private void preOrderToStringTree(StringBuilder string, BinaryNode currentNode) {
+        if (currentNode != null) {
+            string.append(currentNode.getValue());
+            if (currentNode.getLeft() != null || currentNode.getRight() != null) {
+                string.append("(");
+                preOrderToStringTree(string, currentNode.getLeft());
+                string.append(", ");
+                preOrderToStringTree(string, currentNode.getRight());
+                string.append(")");
+            }
+        }
     }
 
     private class BinaryNode {
@@ -92,7 +106,7 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
             this.key = key;
         }
 
-        public V value() {
+        public V getValue() {
             return this.value;
         }
 
