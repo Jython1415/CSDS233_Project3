@@ -101,7 +101,8 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
             return null;
         }
         else if (currentNode.getKey().compareTo(key) == 0) {
-            return currentNode.getParent();
+            return (currentNode.getRight() != null && key.compareTo(currentNode.getRight().getKey()) == 0) ? 
+                   findPreNode(key, currentNode.getRight()) : currentNode;
         }
         else if (key.compareTo(currentNode.getKey()) < 0) {
             return (currentNode.getLeft() == null) ? currentNode : findPreNode(key, currentNode.getLeft());
