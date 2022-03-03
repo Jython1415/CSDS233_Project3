@@ -70,6 +70,10 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         
     }
 
+    private void delete(T key, BinaryNode currentNode) {
+        
+    }
+
     /**
      * This method returns list with all the values in the tree in ascending order (based on their "key")
      * @return a list with all the values in the tree in ascending order
@@ -138,6 +142,19 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         }
         else {
             return findMin(currentNode.getLeft());
+        }
+    }
+
+    private BinaryNode findNode(T key, BinaryNode currentNode) {
+        if (currentNode == null) {
+            return null;
+        }
+        if (key.compareTo(currentNode.getKey()) == 0) {
+            return currentNode;
+        }
+        else {
+            return findNode(key,
+                            (key.compareTo(currentNode.getKey()) < 0) ? currentNode.getLeft() : currentNode.getRight());
         }
     }
 
@@ -213,6 +230,13 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         
         public void setParent(BinaryNode parent) {
             this.parent = parent;
+        }
+
+        public BinaryNode reassignData(BinaryNode node) {
+            this.setValue(node.getValue());
+            this.setKey(node.getKey());
+
+            return this;
         }
     }
 }
