@@ -9,13 +9,15 @@ public class BinarySearchTreeTester {
     /**
      * Unit tests for insert method
      */
+    @Test
     public void testInsert() {
-
+        
     }
 
     /**
      * Unit tests for search method
      */
+    @Test
     public void testSearch() {
 
     }
@@ -23,6 +25,7 @@ public class BinarySearchTreeTester {
     /**
      * Unit tests for delete method
      */
+    @Test
     public void testDelete() {
 
     }
@@ -30,6 +33,7 @@ public class BinarySearchTreeTester {
     /**
      * Unit tests for inorderRec method
      */
+    @Test
     public void testInorderRec() {
 
     }
@@ -37,6 +41,7 @@ public class BinarySearchTreeTester {
     /**
      * Unit tests for kthSmallest method
      */
+    @Test
     public void kthSmallest() {
 
     }
