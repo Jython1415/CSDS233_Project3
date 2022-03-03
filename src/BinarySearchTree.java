@@ -67,10 +67,7 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
      * @param key the key associated with the value that should be removed
      */
     public void delete(T key) {
-        BinaryNode node = findNode(key, getRoot());
-        if (node != null) {
-            delete(key, node);
-        }
+        delete(key, getRoot());
     }
 
     private void delete(T key, BinaryNode currentNode) {
