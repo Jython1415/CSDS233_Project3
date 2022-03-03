@@ -1,3 +1,6 @@
+import java.lang.reflect.Method;
+import java.rmi.UnexpectedException;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -44,5 +47,17 @@ public class BinarySearchTreeTester {
     @Test
     public void kthSmallest() {
 
+    }
+
+    public String preOrderString(BinarySearchTree tree) {
+        Class<?> treeClass = tree.getClass();
+        try {
+            Method method = treeClass.getDeclaredMethod("preOrderToString");
+            method.setAccessible(true);
+            return (String)method.invoke((Object[])null);
+        }
+        catch (Exception e) {
+            throw new NullPointerException("Could not call the method via reflection");
+        }
     }
 }
