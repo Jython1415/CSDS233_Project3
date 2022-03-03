@@ -129,6 +129,18 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         }
     }
 
+    private BinaryNode findMin(BinaryNode currentNode) {
+        if (currentNode == null) {
+            return null;
+        }
+        else if (currentNode.getLeft() == null) {
+            return currentNode;
+        }
+        else {
+            return findMind(currentNode.getLeft());
+        }
+    }
+
     private class BinaryNode {
         private T key;
         private V value;
