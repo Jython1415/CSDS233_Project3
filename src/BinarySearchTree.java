@@ -148,15 +148,22 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
     /**
      * This method returns the value associated with the kth smallest key
      * @param k which value to return
+     * @throws NoSuchElementException if k is larger than the number of values stored in the tree
      * @return the value associated with the kth smallest key
      */
-    public V kthSmallest(int k) {
-        return null;
+    public V kthSmallest(int k) throws NoSuchElementException {
+        List<V> list = inorderRec();
+
+        if (k > list.size() || k <= 0) {
+            throw new NoSuchElementException();
+        }
+        else {
+            return list.get(k - 1);
+        }
     }
 
     private String preOrderToString() {
         StringBuilder string = new StringBuilder();
-
 
         preOrderToStringTree(string, getRoot());
 
