@@ -130,7 +130,19 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
      * @return a list with all the values in the tree in ascending order
      */
     public List<V> inorderRec() {
-        return null;
+        List<V> list = new LinkedList<V>();
+
+        inorderRec(list, getRoot());
+
+        return list;
+    }
+
+    private void inorderRec(List<V> list, BinaryNode currentNode) {
+        if (currentNode != null) {
+            inorderRec(list, currentNode.getLeft());
+            list.add(currentNode.getValue());
+            inorderRec(list, currentNode.getRight());
+        }
     }
 
     /**
