@@ -54,6 +54,8 @@ public class BinarySearchTreeTester {
         Assert.assertEquals(insertError, "2 (1, 3 (, 3))", preOrderString(tree1));
         insert(tree1, 1);
         Assert.assertEquals(insertError, "2 (1 (, 1), 3 (, 3))", preOrderString(tree1));
+        insert(tree1, 1);
+        Assert.assertEquals(insertError, "2 (1 (, 1 (, 1)), 3 (, 3))", preOrderString(tree1));
     }
 
     /**
