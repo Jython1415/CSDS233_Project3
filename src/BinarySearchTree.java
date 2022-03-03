@@ -24,7 +24,16 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
      * @param value the value to be stored in the tree
      */
     public void insert(T key, V value) {
-
+        BinaryNode parent = findPreNode(key);
+        if (parent == null) {
+            setRoot(new BinaryNode(key, value));
+        }
+        else if (key.compareTo(parent.getKey()) < 0) {
+            parent.setLeft(new BinaryNode(key, value, parent));
+        }
+        else {
+            parent.setRight(new BinaryNode(key, value, parent));
+        }
     }
 
     /**
@@ -83,6 +92,25 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         }
     }
 
+    private BinaryNode findPreNode(T key) {
+        return findPreNode(key, getRoot());
+    }
+
+    private BinaryNode findPreNode(T key, BinaryNode currentNode) {
+        if (currentNode == null) {
+            return null;
+        }
+        else if (currentNode.getKey().compareTo(key) == 0) {
+            return currentNode.getParent();
+        }
+        else if (key.compareTo(currentNode.getKey()) < 0) {
+            return (currentNode.getLeft() == null) ? currentNode : findPreNode(key, currentNode.getLeft());
+        }
+        else {
+            return (currentNode.getRight() == null) ? currentNode : findPreNode(key, currentNode.getRight());
+        }
+    }
+
     private class BinaryNode {
         private T key;
         private V value;
@@ -97,6 +125,15 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
             this.left = null;
             this.right = null;
             this.parent = null;
+        }
+
+        public BinaryNode(T key, V value, BinaryNode parent) {
+            this.key = key;
+            this.value = value;
+
+            this.left = null;
+            this.right = null;
+            this.parent = parent;
         }
 
         public BinaryNode(T key, V value, BinaryNode left, BinaryNode right, BinaryNode parent) {
