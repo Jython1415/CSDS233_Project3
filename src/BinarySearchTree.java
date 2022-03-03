@@ -63,6 +63,7 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
 
     /**
      * This method removes the value associated with the input key
+     * If the key is not found, then no value is removed
      * @param key the key associated with the value that should be removed
      */
     public void delete(T key) {
