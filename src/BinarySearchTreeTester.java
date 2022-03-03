@@ -43,6 +43,10 @@ public class BinarySearchTreeTester {
         // new value goes in the middle
         insert(tree1, 4);
         Assert.assertEquals(insertError, "5 (2 (0, 3 (, 4)), 7 (6, 8 (, 9))", preOrderString(tree1));
+
+        // new value is a repeated value
+        insert(tree1, 4);
+        Assert.assertEquals(insertError, "5 (2 (0, 3 (, 4 (, 4))), 7 (6, 8 (, 9))", preOrderString(tree1));
     }
 
     /**
