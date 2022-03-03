@@ -21,32 +21,39 @@ public class BinarySearchTreeTester {
         Assert.assertEquals(insertError, "1", preOrderString(tree1));
 
         // tree with only the root (left and right side)
-        resetTree(tree1);
+        tree1 = newTree();
         insert(tree1, 1);
         insert(tree1, 0);
-        Assert.assertEquals(insertError, "1 (0,)", preOrderString(tree1));
-        resetTree(tree1);
+        Assert.assertEquals(insertError, "1 (0, )", preOrderString(tree1));
+        tree1 = newTree();
         insert(tree1, 1);
         insert(tree1, 2);
         Assert.assertEquals(insertError, "1 (, 2)", preOrderString(tree1));
 
         // new value goes on far left
-        resetTree(tree1);
+        tree1 = newTree();
+        Assert.assertEquals(insertError, "", preOrderString(tree1));
         insert(tree1, 5, 2, 3, 7, 6, 8);
+        Assert.assertEquals(insertError, "5 (2 (, 3), 7 (6, 8))", preOrderString(tree1));
         insert(tree1, 0);
-        Assert.assertEquals(insertError, "5 (2 (0, 3), 7 (6, 8)", preOrderString(tree1));
+        Assert.assertEquals(insertError, "5 (2 (0, 3), 7 (6, 8))", preOrderString(tree1));
 
         // new value goes on far right
         insert(tree1, 9);
-        Assert.assertEquals(insertError, "5 (2 (0, 3), 7 (6, 8 (, 9))", preOrderString(tree1));
+        Assert.assertEquals(insertError, "5 (2 (0, 3), 7 (6, 8 (, 9)))", preOrderString(tree1));
 
         // new value goes in the middle
         insert(tree1, 4);
-        Assert.assertEquals(insertError, "5 (2 (0, 3 (, 4)), 7 (6, 8 (, 9))", preOrderString(tree1));
+        Assert.assertEquals(insertError, "5 (2 (0, 3 (, 4)), 7 (6, 8 (, 9)))", preOrderString(tree1));
 
         // new value is a repeated value
-        insert(tree1, 4);
-        Assert.assertEquals(insertError, "5 (2 (0, 3 (, 4 (, 4))), 7 (6, 8 (, 9))", preOrderString(tree1));
+        tree1 = newTree();
+        insert(tree1, 2, 1, 3);
+        Assert.assertEquals(insertError, "2 (1, 3)", preOrderString(tree1));
+        insert(tree1, 3);
+        Assert.assertEquals(insertError, "2 (1, 3 (, 3))", preOrderString(tree1));
+        insert(tree1, 1);
+        Assert.assertEquals(insertError, "2 (1 (, 1), 3 (, 3))", preOrderString(tree1));
     }
 
     /**
@@ -100,7 +107,7 @@ public class BinarySearchTreeTester {
         return tree;
     }
 
-    public void resetTree(BinarySearchTree<Integer, Integer> tree) {
-        tree = new BinarySearchTree<Integer, Integer>();
+    public BinarySearchTree<Integer, Integer> newTree() {
+        return new BinarySearchTree<Integer, Integer>();
     }
 }
