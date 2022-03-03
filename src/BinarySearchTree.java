@@ -1,5 +1,6 @@
 import java.lang.Comparable;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * This class represents a tree of sorted information. Each bit of stored data has a "key" associated with it that determines how it should be sorted.
@@ -38,10 +39,12 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
 
     /**
      * This method finds a value in the tree based on its associated key
+     * If there are duplicate keys, the value that is associated with the key that is found first will be returned (no guaranteed pattern)
      * @param key the key to search for in the tree
+     * @throws NoSuchElementException if a node with the key cannot be found
      * @return the value that is associated with the key
      */
-    public V search(T key) {
+    public V search(T key) throws NoSuchElementException {
         return null;
     }
 
