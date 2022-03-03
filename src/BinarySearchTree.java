@@ -7,7 +7,7 @@ import java.util.List;
  * @author Joshua Shew
  */
 public class BinarySearchTree<T extends Comparable<? super T>, V> {
-    
+
     /**
      * This method inserts the value into the tree based on the associated key
      * @param key the key determines how the value should be sorted within the tree
@@ -49,5 +49,71 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
      */
     public V kthSmallest(int k) {
         return null;
+    }
+
+    private class BinaryNode {
+        private T key;
+        private V value;
+        private BinaryNode left;
+        private BinaryNode right;
+        private BinaryNode parent;
+
+        public BinaryNode(T key, V value) {
+            this.key = key;
+            this.value = value;
+
+            this.left = null;
+            this.right = null;
+            this.parent = null;
+        }
+
+        public BinaryNode(T key, V value, BinaryNode left, BinaryNode right, BinaryNode parent) {
+            this.key = key;
+            this.value = value;
+
+            this.left = left;
+            this.right = right;
+            this.parent = parent;
+        }
+
+        public T getKey() {
+            return this.key;
+        }
+
+        public void setKey(T key) {
+            this.key = key;
+        }
+
+        public V value() {
+            return this.value;
+        }
+
+        public void setValue(V value) {
+            this.value = value;
+        }
+
+        public BinaryNode getLeft() {
+            return this.left;
+        }
+
+        public void setLeft(BinaryNode left) {
+            this.left = left;
+        }
+
+        public BinaryNode getRight() {
+            return this.right;
+        }
+
+        public void setRight(BinaryNode right) {
+            this.right = right;
+        }
+
+        public BinaryNode getParent() {
+            return this.parent;
+        }
+        
+        public void setParent(BinaryNode parent) {
+            this.parent = parent;
+        }
     }
 }
