@@ -74,7 +74,7 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         if (currentNode != null) {
             string.append(currentNode.getValue());
             if (currentNode.getLeft() != null || currentNode.getRight() != null) {
-                string.append("(");
+                string.append(" (");
                 preOrderToStringTree(string, currentNode.getLeft());
                 string.append(", ");
                 preOrderToStringTree(string, currentNode.getRight());
