@@ -163,12 +163,15 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
             throw new NoSuchElementException();
         }
         
+        /* stores the number of values that have been check *outside* of the stack */
         Container<Integer> count = new Container<Integer>(1);
+
+        /* stores the final result of the search */
         Container<V> result = new Container<V>();
 
         kthSmallest(k, count, result, getRoot());
 
-        if (!result.hasValue()) {
+        if (!result.hasValue()) { // k > # of values
             throw new NoSuchElementException();
         }
         else {
@@ -185,12 +188,12 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
      */
     private void kthSmallest(int k, Container<Integer> count, Container<V> result, BinaryNode currentNode) {
         if (currentNode != null) {
-            if (currentNode.getLeft() != null) {
+            if (currentNode.getLeft() != null) { // not at the minimum value
                 kthSmallest(k, count, result, currentNode.getLeft());
             }
-            if (!result.hasValue()) {
+            if (!result.hasValue()) { // makes sure not to override a round value
                 if (k > count.getValue()) {
-                    count.setValue(count.getValue() + 1);
+                    count.setValue(count.getValue() + 1); // increment to indicate another value has been check
                     kthSmallest(k, count, result, currentNode.getRight());
                 }
                 else {
