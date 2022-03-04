@@ -176,6 +176,13 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         }
     }
 
+    /**
+     * Helper method for kthSmallest
+     * @param k which value to return
+     * @param count how many minimum values have been searched for
+     * @param result the container to store the final result in
+     * @param currentNode the current node to search from
+     */
     private void kthSmallest(int k, Container<Integer> count, Container<V> result, BinaryNode currentNode) {
         if (currentNode != null) {
             if (currentNode.getLeft() != null) {
