@@ -9,13 +9,21 @@ import java.util.NoSuchElementException;
  * @author Joshua Shew
  */
 public class BinarySearchTree<T extends Comparable<? super T>, V> {
-
+    /* stores a reference to the root node in the tree */
     private BinaryNode root;
 
+    /**
+     * Getter method for the root
+     * @return the root of the tree
+     */
     private BinaryNode getRoot() {
         return this.root;
     }
 
+    /**
+     * Setter method for the root
+     * @param root the new root node
+     */
     private void setRoot(BinaryNode root) {
         this.root = root;
     }
@@ -26,14 +34,14 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
      * @param value the value to be stored in the tree
      */
     public void insert(T key, V value) {
-        BinaryNode parent = findPreNode(key);
-        if (parent == null) {
+        BinaryNode parent = findPreNode(key); // find 1 node above where the new value should be inserted
+        if (parent == null) { // this means the tree is empty
             setRoot(new BinaryNode(key, value));
         }
-        else if (key.compareTo(parent.getKey()) < 0) {
+        else if (key.compareTo(parent.getKey()) < 0) { // insert on the left side
             parent.setLeft(new BinaryNode(key, value, parent));
         }
-        else {
+        else { // insert on the right side
             parent.setRight(new BinaryNode(key, value, parent));
         }
     }
@@ -50,13 +58,13 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
     }
 
     private BinaryNode searchTree(T key, BinaryNode currentNode) throws NoSuchElementException {
-        if (currentNode == null) {
+        if (currentNode == null) { // if the node is not found
             throw new NoSuchElementException();
         }
-        else if (key.compareTo(currentNode.getKey()) == 0) {
+        else if (key.compareTo(currentNode.getKey()) == 0) { // if the node is found
             return currentNode;
         }
-        else {
+        else { // searching for the node
             return searchTree(key, (key.compareTo(currentNode.getKey()) < 0) ?
                                    currentNode.getLeft() : currentNode.getRight());
         }
@@ -73,11 +81,10 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
 
     private void delete(T key, BinaryNode currentNode) {
         BinaryNode node = findNode(key, currentNode);
-        if (node != null) {
-            System.out.println(node.getValue().toString());
+        if (node != null) { // if node is null, then the key was not found
             if (node.getLeft() != null && node.getRight() != null) { // two children
-                node.reassignData(findMin(node.getRight()));
-                delete(node.getKey(), node.getRight());
+                node.reassignData(findMin(node.getRight())); // move a suitable node up to replace this one
+                delete(node.getKey(), node.getRight()); // delete the node that was moved up
             }
             else if (node.getLeft() != null) { // replace with left child
                 BinaryNode parentNode = node.getParent();
@@ -111,7 +118,7 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
                     }
                 }
             }
-            else {
+            else { // remove a node with no children
                 if (node.getParent() == null) {
                     setRoot(null);
                 }
@@ -130,7 +137,7 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
      * @return a list with all the values in the tree in ascending order
      */
     public List<V> inorderRec() {
-        List<V> list = new LinkedList<V>();
+        List<V> list = new LinkedList<V>(); // the list to add all the values to
 
         inorderRec(list, getRoot());
 
@@ -154,7 +161,7 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
     public V kthSmallest(int k) throws NoSuchElementException {
         List<V> list = inorderRec();
 
-        if (k > list.size() || k <= 0) {
+        if (k > list.size() || k <= 0) { // invalid inputs
             throw new NoSuchElementException();
         }
         else {
@@ -162,6 +169,10 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         }
     }
 
+    /**
+     * Returns a String of the tree traversed using pre-order traversal
+     * @return a string representation of the tree
+     */
     private String preOrderToString() {
         StringBuilder string = new StringBuilder();
 
@@ -170,6 +181,11 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         return string.toString();
     }
 
+    /**
+     * Helper method for preOrderToString
+     * @param string the string to build on
+     * @param currentNode the current location in the tree
+     */
     private void preOrderToStringTree(StringBuilder string, BinaryNode currentNode) {
         if (currentNode != null) {
             string.append(currentNode.getValue());
@@ -183,26 +199,43 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         }
     }
 
+    /**
+     * Finding the node directly above where a node with the input key would go
+     * In the case of duplicates, it finds the lowest position that fulfills the above criteria
+     * @param key the key to be inserted into the tree
+     * @return the node above the key's correct position
+     */
     private BinaryNode findPreNode(T key) {
         return findPreNode(key, getRoot());
     }
 
+    /**
+     * Helper method for findPreNode
+     * @param key the key to search for
+     * @param currentNode the current position in the tree
+     * @return the node above the key
+     */
     private BinaryNode findPreNode(T key, BinaryNode currentNode) {
-        if (currentNode == null) {
+        if (currentNode == null) { // when the key cannot be found
             return null;
         }
-        else if (currentNode.getKey().compareTo(key) == 0) {
+        else if (currentNode.getKey().compareTo(key) == 0) { // if the node is found
             return (currentNode.getRight() != null && key.compareTo(currentNode.getRight().getKey()) == 0) ? 
                    findPreNode(key, currentNode.getRight()) : currentNode;
         }
-        else if (key.compareTo(currentNode.getKey()) < 0) {
+        else if (key.compareTo(currentNode.getKey()) < 0) { // go left
             return (currentNode.getLeft() == null) ? currentNode : findPreNode(key, currentNode.getLeft());
         }
-        else {
+        else { // go right
             return (currentNode.getRight() == null) ? currentNode : findPreNode(key, currentNode.getRight());
         }
     }
 
+    /**
+     * Find the minimum node in a subtree
+     * @param currentNode the node to search at
+     * @return the minimum node in the subtree
+     */
     private BinaryNode findMin(BinaryNode currentNode) {
         if (currentNode == null) {
             return null;
@@ -215,6 +248,11 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         }
     }
 
+    /**
+     * Finds a node based on the key
+     * @param key the key to search for
+     * @param currentNode the node to search from
+     */
     private BinaryNode findNode(T key, BinaryNode currentNode) {
         if (currentNode == null) {
             return null;
@@ -228,13 +266,31 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         }
     }
 
+    /**
+     * A class to represent a node in a BinaryTree
+     * @author Joshua Shew
+     */
     private class BinaryNode {
+        /* stores the key by which nodes are sorted in the tree */
         private T key;
+
+        /* stores the value in the node */
         private V value;
+
+        /* stores a reference to the left child */
         private BinaryNode left;
+
+        /* stores a reference to the right child */
         private BinaryNode right;
+
+        /* stores a reference to the parent node */
         private BinaryNode parent;
 
+        /**
+         * Constructor with key and value
+         * @param key the key for the node
+         * @param value the value of the node
+         */
         public BinaryNode(T key, V value) {
             this.key = key;
             this.value = value;
@@ -244,6 +300,12 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
             this.parent = null;
         }
 
+        /**
+         * Constructor with parent parameter included
+         * @param key the key of the node
+         * @param value the value of the node
+         * @param parent a reference to the parent node
+         */
         public BinaryNode(T key, V value, BinaryNode parent) {
             this.key = key;
             this.value = value;
@@ -253,46 +315,91 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
             this.parent = parent;
         }
 
+        /**
+         * Getter for the key
+         * @return the key
+         */
         public T getKey() {
             return this.key;
         }
 
+        /**
+         * Setter for the key
+         * @param key the new key
+         */
         public void setKey(T key) {
             this.key = key;
         }
 
+        /**
+         * Getter for the value
+         * @return the value in the node
+         */
         public V getValue() {
             return this.value;
         }
 
+        /**
+         * Setter for the value
+         * @param value the new value
+         */
         public void setValue(V value) {
             this.value = value;
         }
 
+        /**
+         * Getter for the left child
+         * @return the left child
+         */
         public BinaryNode getLeft() {
             return this.left;
         }
 
+        /**
+         * Setter for the left child
+         * @param left the new left child
+         */
         public void setLeft(BinaryNode left) {
             this.left = left;
         }
 
+        /**
+         * Getter for the right child
+         * @return the right child
+         */
         public BinaryNode getRight() {
             return this.right;
         }
 
+        /**
+         * Setter for the right child
+         * @param right the new right child
+         */
         public void setRight(BinaryNode right) {
             this.right = right;
         }
 
+        /**
+         * Getter for the parent node
+         * @return the parent node
+         */
         public BinaryNode getParent() {
             return this.parent;
         }
         
+        /**
+         * Setter for the parent node
+         * @param parent the new parent node
+         */
         public void setParent(BinaryNode parent) {
             this.parent = parent;
         }
 
+        /**
+         * Resets the key and value of this node based on the input node
+         * @param node the node to copy the key and data from
+         * @return this node
+         */
         public BinaryNode reassignData(BinaryNode node) {
             this.setValue(node.getValue());
             this.setKey(node.getKey());
@@ -301,6 +408,7 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         }
     }
 
+    /* Main method for demonstration */
     public static void main(String[] args) {
         System.out.println("** Demonstration **");
         System.out.println(""); // new line

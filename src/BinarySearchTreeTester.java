@@ -370,6 +370,11 @@ public class BinarySearchTreeTester {
         }
     }
 
+    /**
+     * Helper method to use a private method in BinarySearchTree
+     * @param tree the tree to call the method on
+     * @return the string outputted by the method
+     */
     public static String preOrderString(BinarySearchTree<?, ?> tree) {
         Class<?> treeClass = tree.getClass();
         try {
@@ -382,6 +387,12 @@ public class BinarySearchTreeTester {
         }
     }
 
+    /**
+     * Helper method to repeatedly call the insert method on a tree
+     * @param tree the tree to call insert on
+     * @param values the value to use as both key and value for the insert invokations
+     * @return the tree
+     */
     public static BinarySearchTree<Integer, Integer> insert(BinarySearchTree<Integer, Integer> tree, int... values) {
         for (int i : values)
             tree.insert(i, i);
@@ -389,6 +400,10 @@ public class BinarySearchTreeTester {
         return tree;
     }
 
+    /**
+     * Helper method to create a new tree that stores Integers for both keys and values
+     * @return the tree
+     */
     public static BinarySearchTree<Integer, Integer> newTree() {
         return new BinarySearchTree<Integer, Integer>();
     }
