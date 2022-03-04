@@ -390,7 +390,7 @@ public class BinarySearchTreeTester {
     /**
      * Helper method to repeatedly call the insert method on a tree
      * @param tree the tree to call insert on
-     * @param values the value to use as both key and value for the insert invokations
+     * @param values the value to use as both key and value for the insert invocations
      * @return the tree
      */
     public static BinarySearchTree<Integer, Integer> insert(BinarySearchTree<Integer, Integer> tree, int... values) {

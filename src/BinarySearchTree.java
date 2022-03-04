@@ -159,13 +159,38 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
      * @return the value associated with the kth smallest key
      */
     public V kthSmallest(int k) throws NoSuchElementException {
-        List<V> list = inorderRec();
+        if (k < 0) {
+            throw new NoSuchElementException();
+        }
+        
+        Container<Integer> count = new Container<Integer>(1);
+        Container<V> result = new Container<V>();
 
-        if (k > list.size() || k <= 0) { // invalid inputs
+        kthSmallest(k, count, result, getRoot());
+
+        if (!result.hasValue()) {
             throw new NoSuchElementException();
         }
         else {
-            return list.get(k - 1);
+            return result.getValue();
+        }
+    }
+
+    private void kthSmallest(int k, Container<Integer> count, Container<V> result, BinaryNode currentNode) {
+        if (currentNode != null) {
+            if (currentNode.getLeft() != null) {
+                kthSmallest(k, count, result, currentNode.getLeft());
+            }
+            if (!result.hasValue()) {
+                if (k > count.getValue()) {
+                    count.setValue(count.getValue() + 1);
+                    kthSmallest(k, count, result, currentNode.getRight());
+                }
+                else {
+                    result.setValue(currentNode.getValue());
+                }
+            }
+            
         }
     }
 
@@ -263,6 +288,73 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         else {
             return findNode(key,
                             (key.compareTo(currentNode.getKey()) < 0) ? currentNode.getLeft() : currentNode.getRight());
+        }
+    }
+
+    /**
+     * Helper method to repeatedly call the insert method on a tree
+     * @param tree the tree to call insert on
+     * @param values the value to use as both key and value for the insert invocations
+     * @return the tree
+     */
+    private static BinarySearchTree<Integer, Integer> insert(BinarySearchTree<Integer, Integer> tree, int... values) {
+        for (int i : values)
+            tree.insert(i, i);
+
+        return tree;
+    }
+
+    /**
+     * Class to store a singular value as an object
+     * @author Joshua Shew
+     */
+    private class Container<U> {
+        /* stores the value */
+        private U value;
+
+        /* stores whether a value has been added */
+        private boolean added = false;
+
+        /**
+         * Constructor with no input
+         */
+        public Container() {
+            this.value = null;
+            this.added = false;
+        }
+
+        /**
+         * Constructor with a value
+         * @param value the value to be stored
+         */
+        public Container(U value) {
+            this.value = value;
+            this.added = true;
+        }
+
+        /**
+         * Getter for the value stored in the container
+         * @return the value
+         */
+        public U getValue() {
+            return this.value;
+        }
+
+        /**
+         * Setter for the value stored in the container
+         * @param value the value to store in the container
+         */
+        public void setValue(U value) {
+            this.value = value;
+            this.added = true;
+        }
+
+        /**
+         * Whether the container has a value in it or not
+         * @return true if there is a value, false otherwise
+         */
+        public boolean hasValue() {
+            return this.added;
         }
     }
 
@@ -416,12 +508,12 @@ public class BinarySearchTree<T extends Comparable<? super T>, V> {
         System.out.println("Create a new empty BinarySearchTree\nBinarySearchTree<Integer, Integer> tree1 = new BinarySearchTree<Integer, Integer>();");
         System.out.println(""); // new line
 
-        BinarySearchTree<Integer, Integer> tree1 = BinarySearchTreeTester.newTree();
+        BinarySearchTree<Integer, Integer> tree1 = new BinarySearchTree<Integer, Integer>();
 
         System.out.println("Insert: 2, 1, 4, 5, 9, 3, 6, 7, 10, 12, 11");
         System.out.println("Uses: tree1.insert(x, x); // so key and value are the same");
 
-        BinarySearchTreeTester.insert(tree1, 2, 1, 4, 5, 9, 3, 6, 7, 10, 12, 11);
+        insert(tree1, 2, 1, 4, 5, 9, 3, 6, 7, 10, 12, 11);
 
         System.out.println(""); // new line
         System.out.println("Use tree1.inorderRec().toString() to display the tree");
